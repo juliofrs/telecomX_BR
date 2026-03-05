@@ -1,14 +1,16 @@
-# 📊 Análise de Churn de clientes da empresa TelecomX
+# ☎️ Telecom X: Análise de Evasão de Clientes (Churn)
 
-![Badge Concluído](http://img.shields.io/static/v1?label=STATUS&message=CONCLUÍDO&color=GREEN&style=for-the-badge)
-![Badge Python](http://img.shields.io/static/v1?label=Tech&message=PYTHON&color=blue&style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-2C2D72?style=for-the-badge&logo=pandas&logoColor=white)
+![Google Colab](https://img.shields.io/badge/Google_Colab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)
 
 ## 💼 Descrição do Projeto
 
-O presente relatório documenta as etapas e descobertas do projeto de análise de dados focado no Churn de Clientes da empresa de telecomunicações Telecom X. O Churn (taxa de cancelamento) é uma das métricas mais críticas para empresas de serviços recorrentes, pois o custo de aquisição de um novo cliente é significativamente maior do que o custo de retenção.
+Este projeto de Ciência de Dados foca em resolver um dos problemas mais clássicos e custosos para empresas de serviços recorrentes: o **Churn (Evasão de Clientes)**. O Churn é uma das métricas mais críticas para empresas de serviços recorrentes, pois o custo de aquisição de um novo cliente é significativamente maior do que o custo de retenção. O presente relatório documenta as etapas e descobertas do projeto de análise de dados focado no Churn de Clientes da empresa de telecomunicações Telecom X. 
 
 ## 🎯 Objetivo
-Analisar a base de dados histórica da Telecom X para identificar os principais fatores e padrões que levam à evasão de clientes, fornecendo uma base sólida de Data Science para a futura criação de modelos preditivos e campanhas de retenção.
+
+Atuando como analista de dados para a empresa fictícia **Telecom X**, o objetivo foi investigar uma base de dados com mais de 7.000 registros para descobrir os fatores que levam à perda de clientes. A partir da coleta, tratamento e análise (EDA) de variáveis demográficas, financeiras e de serviços, extraímos insights valiosos para embasar estratégias de retenção e futuras aplicações de Machine Learning.
 
 ---
 
@@ -17,44 +19,29 @@ Analisar a base de dados histórica da Telecom X para identificar os principais 
 * **Python:** Linguagem base para análise.
 * **Pandas:** Carregamento de dados (ETL), limpeza e manipulação de DataFrames.
 * **Matplotlib e Seaborn:** Visualização de dados para criação de gráficos comparativos.
-* **Jupyter Notebook:** Ambiente de desenvolvimento e documentação.
+* **Google Colab:** Ambiente de desenvolvimento e documentação.
 
 ---
+## 🧹 Limpeza e Tratamento de Dados (ETL)
+Para garantir a qualidade da análise, os dados brutos passaram por um processo rigoroso de ETL, que incluiu:
+- **Tratamento de Valores Ausentes:** Remoção de registros sem a variável alvo (Churn) e preenchimento de faturas vazias.
+- **Transformação de Tipos:** Conversão de cobranças lidas como texto para o formato numérico (`float`).
+- **Feature Engineering:** Criação da métrica `Cobranca_Diaria` para tangibilizar o custo do serviço ao longo do tempo.
+- **Encoding e Padronização:** Tradução de colunas para o português e conversão de categorias binárias (Sim/Não) para `1` e `0`, otimizando o processamento estatístico do dataframe (`df`).
 
-## 🔍 Principais Insights da Análise
+## 📊 Análise Exploratória (EDA) & Insights
+A análise exploratória revelou padrões claros sobre o perfil de cancelamento. Os principais achados incluem:
 
-Durante a exploração dos dados, levantei pontos cruciais que direcionaram a tomada de decisão:
+* 🚨 **Contratos Mensais são o maior risco:** Clientes com o plano "Mês a Mês" (Month-to-month) apresentam uma taxa de evasão crítica de **42,7%**. Em contrapartida, contratos anuais retêm a grande maioria da base.
+* 📉 **O Paradoxo da Fibra Ótica:** O serviço premium de internet por Fibra Ótica é o que mais perde assinantes (**41,9%** de evasão), indicando um possível problema de qualidade ou precificação frente ao custo-benefício.
+* ⏳ **Tempo de Vida Curto:** A mediana de permanência dos clientes que cancelam é de apenas **10 meses**. Reter o cliente no primeiro ano é o maior desafio da empresa.
+* 💰 **Fator Financeiro:** O ticket médio de quem evade ($79.65) é visivelmente maior do que o daqueles que permanecem ($64.42).
 
-### 💰 1. Performance Financeira (Faturamento)
-A métrica principal de decisão. Ao consolidar as vendas, identificou-se um *gap* de performance:
-* **Loja 1 (Líder):** R$ 1.534.509,12
-* **Loja 4 (Menor Receita):** R$ 1.384.497,58
-
-> **Insight:** A Loja 4 arrecada cerca de **R$ 150.000,00 a menos** que a líder, indicando ineficiência comercial.
-
-### ⭐ 2. Qualidade Percebida (Avaliações)
-Havia a hipótese de que a loja com pior venda teria o pior atendimento. **Os dados refutaram isso.**
-* Média geral das lojas: ~4.0
-* A análise mostrou uma **homogeneidade** entre as filiais.
-
-> **Conclusão:** O problema da Loja 4 **não é** a qualidade do serviço ou do produto, visto que há um empate técnico na satisfação do cliente.
-
-### 🚚 3. Eficiência Logística (Frete)
-Os custos de frete variaram pouco (R$ 31,00 - R$ 35,00).
-* A Loja 4 possui um frete competitivo (faixa inferior), mas isso não se traduziu em vendas.
-* Isso isola o problema: ter frete barato não está salvando a operação da Loja 4.
-
----
-
-## 💡 Conclusão e Recomendação
-
-Com base na análise de dados, a recomendação oficial para o *stakeholder* é a **venda da Loja 4**.
-
-### ⚖️ Justificativa da Decisão:
-1.  **Menor Retorno Financeiro:** É a unidade com o menor volume de receita (R$ 1.38 Mi), consistentemente atrás das concorrentes internas.
-2.  **Problema Estrutural:** O fato de ter boas avaliações e frete competitivo, mas ainda assim vender pouco, sugere problemas estruturais de localização ou demanda de mercado que dificilmente serão resolvidos a curto prazo.
-3.  **Custo de Oportunidade:** Vender a unidade menos eficiente libera capital para investimentos com maior potencial de retorno.
-
+## 💡 Recomendações Estratégicas
+Com base nos dados, as ações recomendadas para a Telecom X incluem:
+1. **Revisão Técnica:** Investigar a infraestrutura e o valor percebido do serviço de Fibra Ótica.
+2. **Incentivos de Fidelização:** Oferecer benefícios agressivos de *upsell* para migrar clientes do plano mensal para o anual.
+3. **Programa de Boas-Vindas:** Criar um acompanhamento intensivo de "Sucesso do Cliente" (CS) nos primeiros 6 meses de contrato.
 ---
 
 ## 📈 Visualizações
